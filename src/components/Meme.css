@@ -22,6 +22,9 @@ main{
     border-radius: 5px;
 }
 .meme--image{
-    width: 800px;
-    margin-left: 300px;
+    width: 1300px;
+    margin-left: 100px;
+    align-items: center;
+    background-repeat: no-repeat;
+    height: 600px;
 }
