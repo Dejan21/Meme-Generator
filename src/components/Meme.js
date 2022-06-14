@@ -1,21 +1,30 @@
 import React from "react";
 import "./Meme.css";
-import memesData from "../memesData.js";
+
 
 function Meme() {
+
+
   const [meme, setMeme] = React.useState({
     topText: "",
     bottomText: "",
     randomImage: "http://i.imgflip.com/1bij.jpg",
   });
 
-  const [allMemeImages, setAllMemeImages] = React.useState(memesData);
+
+  const [allMemes, setAllMemes] = React.useState([]);
+
+   React.useEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+    .then(res => res.json())
+    .then(data => setAllMemes(data.data.memes))
+   }, [])
+ 
 
   function getMemeImage() {
-    const memesArray = allMemeImages.data.memes;
-    const randomNumber = Math.floor(Math.random() * memesArray.length);
-    const url = memesArray[randomNumber].url;
-    setMeme((prevMeme) => ({
+    const randomNumber = Math.floor(Math.random() * allMemes.length);
+    const url = allMemes[randomNumber].url;
+    setMeme(prevMeme => ({
       ...prevMeme,
       randomImage: url,
     }));
@@ -23,7 +32,7 @@ function Meme() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setMeme((prevMeme) => {
+    setMeme(prevMeme => {
       return {
         ...prevMeme,
         [name]: value,
@@ -38,7 +47,7 @@ function Meme() {
           type="text"
           placeholder="Top text"
           className="form--input"
-          name="Toptext"
+          name="topText"
           value={meme.topText}
           onChange={handleChange}
         />
